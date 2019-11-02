@@ -2,7 +2,8 @@
  * @author Tiago Oliveira
  */
 
-var GAME = GAME || {};
+//var GAME = GAME || {};
+const GAME = new PIXI.Application();
 
 GAME.HIGH_MODE = true;
 GAME.camera = new PIXI.Point();
@@ -14,11 +15,14 @@ GAME.newHighScore = false;
 GAME.screenHeight = 600;
 GAME.screenWidth = 800;
 
+GAME.eventEmit = new PIXI.utils.EventEmitter();
+
 var stressTest;
 
 // LOAD
 const loader = new PIXI.Loader();
 
+loader.add('btnMove', 'resources/images/btn_move.png');
 loader.add('bunny', 'resources/images/bunny.png');
 loader.add('ground', 'resources/images/ground.png');
 loader.add('PIXIeTex', 'resources/data/PIXIe_tex.png');
@@ -37,17 +41,17 @@ loader.onComplete.add(function ()
 	// The application will create a renderer using WebGL, if possible,
 	// with a fallback to a canvas render. It will also setup the ticker
 	// and the root stage PIXI.Container
-	const app = new PIXI.Application();
+	//const app = new PIXI.Application();
 
 	// The application will create a canvas element for you that you
 	// can then insert into the DOM
-	document.body.appendChild(app.view);
+	document.body.appendChild(GAME.view);
 
 	bgh = new Background(GAME.resources.bunny.texture, true);
 	bgh2 = new Background(GAME.resources.bunny.texture, true, 4);
 	bgv = new Background(GAME.resources.bunny.texture, true, -2, null, 'VERTICAL');
 	bgh2.y = 200;
-	app.stage.addChild(bgh, bgh2, bgv);
+	GAME.stage.addChild(bgh, bgh2, bgv);
 
 	player = new Character();
 	player2 = new Character();
@@ -64,7 +68,9 @@ loader.onComplete.add(function ()
 
 	player3.scale.x = -1;
 
-	app.stage.addChild(player, player2, player3);
+    btn_move = new Button(GAME.resources.btnMove.texture, 'moveplayer');
+
+	GAME.stage.addChild(player, player2, player3, btn_move);
 
 
 	var objs = [];
@@ -96,7 +102,7 @@ loader.onComplete.add(function ()
     }
 */
 	// Listen for animate update
-	app.ticker.add(function(delta) {
+	GAME.ticker.add(function(delta) {
 	    // just for fun, let's rotate mr rabbit a little
 	    // delta is 1 if running at 100% performance
 	    // creates frame-independent transformation
@@ -122,5 +128,5 @@ loader.onComplete.add(function ()
 
 	});
 
-	app.start();
+	GAME.start();
 });

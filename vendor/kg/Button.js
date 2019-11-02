@@ -2,25 +2,35 @@
  * @author Tiago Oliveira
  */
 
-Button = function (texture) {
-    PIXI.Spriter.call(this);
+Button = function (texture, event) {
+    PIXI.Sprite.call(this);
 
     // create a texture from an image path
-    const MOUSENORMALTEXTURE = PIXI.Texture.from(GAME.resources.btn_move.texture);
+    const MOUSENORMALTEXTURE = texture;
 
     // create a second texture
-    const MOUSEPRESSTEXTURE = PIXI.Texture.from(GAME.resources.btn_move.texture);
+    const MOUSEPRESSTEXTURE = texture;
 
     this.interactive = true;
     this.buttonMode = true;
 
+    this.texture = MOUSEPRESSTEXTURE;
+
     this.on('pointertap', () => {
-        //
+        GAME.eventEmit.emit(event, 'emit A');
     });
+
+    /*this.on('moveplayer', function(e) {
+        console.log('MOVED!!!' + e);
+    });*/
 };
 
-Button.prototype = Object.create( PIXI.Spriter.prototype );
+Button.prototype = Object.create( PIXI.Sprite.prototype );
 Button.prototype.constructor = Button;
+
+/*sprite.on('my-event', function (data1, data2) {
+    console.log(data1, data2);});
+sprite.emit('my-event', 'somedata', 'moredata');*/
 
 Button.prototype.setTexture = function (texture) {
 	this.texture = texture;

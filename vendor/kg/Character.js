@@ -18,6 +18,11 @@ Character = function (texture) {
     this.armature.y = 400;
     this.armature.scale.x = 0.3;
     this.armature.scale.y = 0.3;
+
+    GAME.eventEmit.on('moveplayer', function(e) {
+        console.log('MOVED C!!!' + e);
+    });
+
 	this.addChild(this.armature);
 };
 
